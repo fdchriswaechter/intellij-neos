@@ -2,7 +2,9 @@ package de.vette.idea.neos.lang.php.references.signalSlot;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
@@ -76,12 +78,51 @@ public final class SignalSlotUtil {
         return parameterList;
     }
 
+    /**
+     * Resolves an argument either by its PHP 8 named argument or by its position.
+     * Replacement for the internal {@code ParameterList#getParameter(String, int)}.
+     */
+    @Nullable
+    private static PsiElement getArgument(@NotNull ParameterList parameterList, @NotNull String name, int index) {
+        PsiElement[] arguments = parameterList.getParameters();
+        for (PsiElement argument : arguments) {
+            if (name.equals(getArgumentName(argument))) {
+                return argument;
+            }
+        }
+
+        // positional arguments must precede named ones in PHP
+        if (index < arguments.length && getArgumentName(arguments[index]) == null) {
+            return arguments[index];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return the name of a named argument ({@code name: value}) or null for positional arguments
+     */
+    @Nullable
+    private static String getArgumentName(@NotNull PsiElement argument) {
+        PsiElement colon = PsiTreeUtil.skipWhitespacesAndCommentsBackward(argument);
+        if (colon == null || colon.getNode().getElementType() != PhpTokenTypes.opCOLON) {
+            return null;
+        }
+
+        PsiElement name = PsiTreeUtil.skipWhitespacesAndCommentsBackward(colon);
+        if (name == null || name.getNode().getElementType() != PhpTokenTypes.IDENTIFIER) {
+            return null;
+        }
+
+        return name.getText();
+    }
+
     public static boolean isSignalNameArgument(@NotNull PsiElement argument, @NotNull ParameterList parameterList) {
-        return argument == parameterList.getParameter(SIGNAL_NAME_PARAMETER, SIGNAL_NAME_INDEX);
+        return argument == getArgument(parameterList, SIGNAL_NAME_PARAMETER, SIGNAL_NAME_INDEX);
     }
 
     public static boolean isSlotMethodArgument(@NotNull PsiElement argument, @NotNull ParameterList parameterList) {
-        return argument == parameterList.getParameter(SLOT_METHOD_PARAMETER, SLOT_METHOD_INDEX);
+        return argument == getArgument(parameterList, SLOT_METHOD_PARAMETER, SLOT_METHOD_INDEX);
     }
 
     /**
@@ -93,7 +134,7 @@ public final class SignalSlotUtil {
             return Collections.emptyList();
         }
 
-        return resolveClasses(parameterList.getParameter(SIGNAL_CLASS_PARAMETER, SIGNAL_CLASS_INDEX));
+        return resolveClasses(getArgument(parameterList, SIGNAL_CLASS_PARAMETER, SIGNAL_CLASS_INDEX));
     }
 
     /**
@@ -105,7 +146,7 @@ public final class SignalSlotUtil {
             return Collections.emptyList();
         }
 
-        return resolveClasses(parameterList.getParameter(SLOT_CLASS_PARAMETER, SLOT_CLASS_INDEX));
+        return resolveClasses(getArgument(parameterList, SLOT_CLASS_PARAMETER, SLOT_CLASS_INDEX));
     }
 
     /**

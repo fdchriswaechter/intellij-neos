@@ -64,6 +64,13 @@ public class SignalSlotReferencesTest extends BasePlatformTestCase {
         assertResolvesToMethod(caretOffset(1), SlotMethodReference.class, SLOT_CLASS_FQN, "handleSomethingHappened");
     }
 
+    public void testNamedArgumentsAreResolved() {
+        loadFixture("Classes/PackageWithNamedArguments.php");
+
+        assertResolvesToMethod(caretOffset(0), SlotMethodReference.class, SLOT_CLASS_FQN, "handleSomethingHappened");
+        assertResolvesToMethod(caretOffset(1), SignalMethodReference.class, SIGNAL_CLASS_FQN, "emitSomethingHappened");
+    }
+
     public void testSlotIsFoundWhenSearchingForUsages() {
         loadFixture("Classes/Package.php");
 
