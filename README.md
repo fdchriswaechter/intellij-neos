@@ -22,7 +22,7 @@ This fork contains additions that are not (yet) part of the official plugin:
 - Magic repository finders (`findBy*`, `findOneBy*`, `countBy*`) are no longer reported as undefined methods and have proper return types (entity, `QueryResultInterface`, `int`)
 
 ### Installation
-1. Download the latest `Intellij Neos-<version>-custom.<n>.zip` from the [releases of this fork](https://github.com/fdchriswaechter/intellij-neos/releases). Do not unpack it.
+1. Download the latest `Intellij.Neos-<version>-custom.<n>.zip` from the [releases of this fork](https://github.com/fdchriswaechter/intellij-neos/releases). Do not unpack it.
 2. In PhpStorm open `Settings > Plugins`, click the gear icon and choose `Install Plugin from Disk...`.
 3. Select the downloaded zip and restart PhpStorm.
 
