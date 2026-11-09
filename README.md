@@ -13,6 +13,27 @@ Usage
 -----
 You can install the plugin by going to `Settings > Plugins > Browse repositories` and searching for "Neos".
 
+Custom build (fork)
+-------------------
+This fork contains additions that are not (yet) part of the official plugin:
+
+- Signal/slot references: navigate from `$dispatcher->connect(...)` calls to the signal and slot methods
+- Controller actions and CLI commands are no longer marked as unused, also when the controller extends a project specific base controller
+- Magic repository finders (`findBy*`, `findOneBy*`, `countBy*`) are no longer reported as undefined methods and have proper return types (entity, `QueryResultInterface`, `int`)
+
+### Installation
+1. Download the latest `Intellij Neos-<version>-custom.<n>.zip` from the [releases of this fork](https://github.com/fdchriswaechter/intellij-neos/releases). Do not unpack it.
+2. In PhpStorm open `Settings > Plugins`, click the gear icon and choose `Install Plugin from Disk...`.
+3. Select the downloaded zip and restart PhpStorm.
+
+The custom build requires PhpStorm 2026.3. It uses the same plugin ID as the official "Neos Support" plugin and replaces it. When the official plugin publishes a newer version, PhpStorm offers it as an update; installing that update removes the fork's additions.
+
+### Building it yourself
+```shell
+./gradlew buildPlugin -PpluginVersion=1.28.0-custom.1
+```
+The zip is written to `build/distributions/`.
+
 Contributing
 ------------
 See [CONTRIBUTING.md](CONTRIBUTING.md)
