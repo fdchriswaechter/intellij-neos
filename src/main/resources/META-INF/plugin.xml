@@ -10,8 +10,12 @@
   <depends>com.intellij.xml</depends>
   <depends>com.intellij.modules.json</depends>
   <depends>com.jetbrains.php</depends>
-  <depends>org.intellij.intelliLang</depends>
   <depends>org.jetbrains.plugins.yaml</depends>
+
+  <!-- IntelliLang is a platform module since 2026.x and no longer available as plugin "org.intellij.intelliLang" -->
+  <dependencies>
+    <module name="intellij.platform.langInjection"/>
+  </dependencies>
 
   <projectListeners>
     <listener class="de.vette.idea.neos.ComposerUpdateListener" topic="com.jetbrains.php.composer.actions.update.ComposerInstalledPackagesService$ComposerUpdateListener" />
