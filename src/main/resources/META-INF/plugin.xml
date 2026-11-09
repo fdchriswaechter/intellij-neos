@@ -21,6 +21,7 @@
     <libraryRoot id="doctrine_meta" path="doctrine-phpstorm-meta/" runtime="false"/>
     <frameworkUsageProvider implementation="de.vette.idea.neos.FrameworkUsageProvider"/>
     <frameworkProjectConfigurableProvider implementation="de.vette.idea.neos.FrameworkConfigurableProvider"/>
+    <typeProvider4 implementation="de.vette.idea.neos.lang.php.repository.RepositoryMagicMethodTypeProvider"/>
   </extensions>
 
   <extensions defaultExtensionNs="org.intellij.intelliLang">
@@ -144,6 +145,7 @@
     <xml.xmlTypedHandlersAdditionalSupport implementation="de.vette.idea.neos.lang.fusion.editor.FusionXmlTypedHandlersAdditionalSupport" />
 
     <lang.inspectionSuppressor language="PHP" implementationClass="de.vette.idea.neos.lang.php.inspections.suppression.FlowUnusedMethodSuppressor"/>
+    <lang.inspectionSuppressor language="PHP" implementationClass="de.vette.idea.neos.lang.php.inspections.suppression.FlowRepositoryMagicMethodSuppressor"/>
   </extensions>
 
   <actions>
