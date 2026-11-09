@@ -111,6 +111,7 @@
 
     <psi.referenceContributor implementation="de.vette.idea.neos.lang.yaml.references.nodeType.NodeTypeReferenceContributor"/>
     <psi.referenceContributor implementation="de.vette.idea.neos.lang.yaml.references.value.ValueReferenceContributor"/>
+    <psi.referenceContributor language="PHP" implementation="de.vette.idea.neos.lang.php.references.signalSlot.SignalSlotReferenceContributor"/>
 
     <codeInsight.parameterNameHints language="NeosFusion" implementationClass="de.vette.idea.neos.lang.eel.codeInsight.hints.EelInlayParameterHintsProvider"/>
 

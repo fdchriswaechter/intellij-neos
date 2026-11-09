@@ -7,6 +7,7 @@
 ### Added
 
 - Compatibility with 2026.2
+- References from signal/slot connections to the connected PHP methods, so slots are no longer reported as unused
 
 ## [1.26.0] - 2026-03-27
 
